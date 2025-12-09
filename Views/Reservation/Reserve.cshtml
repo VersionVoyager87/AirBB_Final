@@ -1,0 +1,31 @@
+@model AirBB.Models.DomainModels.Reservation
+@{
+    Layout = "_MainLayout";
+    ViewData["Title"] = "Reservation Confirmation";
+}
+
+<h2 class="text-center my-4 text-success">Reservation Confirmed!</h2>
+
+<div class="card shadow-sm mx-auto" style="max-width: 500px;">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Residence?.Name</h4>
+        <p class="card-text">
+            <strong>Location:</strong> @Model.Residence?.Location?.Name <br />
+            <strong>Guests:</strong> @Model.Residence?.GuestNumber <br />
+            <strong>From:</strong> @Model.ReservationStartDate.ToShortDateString() <br />
+            <strong>To:</strong> @Model.ReservationEndDate.ToShortDateString() <br />
+            <strong>Total Price:</strong> 
+            @((Model.Residence?.PricePerNight ?? 0) * 
+               (Model.ReservationEndDate - Model.ReservationStartDate).Days).ToString("C")
+        </p>
+
+        <div class="d-flex justify-content-between">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                Back to Home
+            </a>
+            <a asp-controller="Reservation" asp-action="Index" class="btn btn-primary">
+                View My Reservations
+            </a>
+        </div>
+    </div>
+</div>

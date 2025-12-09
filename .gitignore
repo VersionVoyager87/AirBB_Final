@@ -1,0 +1,27 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code settings
+.vscode/
+
+# ASP.NET Core secrets
+secrets.json
+
+
+
+# Logs
+*.log
+
+# Publish output
+publish/
+
+# System files
+*.DS_Store
+Thumbs.db

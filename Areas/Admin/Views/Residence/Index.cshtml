@@ -1,0 +1,36 @@
+@model IEnumerable<AirBB.Models.DomainModels.Residence>
+
+@{
+    ViewData["Title"] = "Manage Residences";
+}
+
+<h2>Manage Residences</h2>
+
+<a asp-action="Add" class="btn btn-primary mb-3">Add Residence</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Owner ID</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.Name</td>
+            <td>@r.Location?.Name</td>
+            <td>@r.OwnerId</td>
+            <td>@r.Price.ToString("c")</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@r.ResidenceId" class="btn btn-warning btn-sm">Edit</a>
+                <a asp-action="Delete" asp-route-id="@r.ResidenceId" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,63 @@
+@model List<AirBB.Models.DomainModels.Reservation>
+@{
+    ViewData["Title"] = "My Reservations";
+    Layout = "_MainLayout";
+}
+
+<h2 class="text-center my-4">
+    <i class="fa-solid fa-bookmark"></i> My Reservations
+</h2>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success text-center shadow-sm">
+        @TempData["message"]
+    </div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-striped align-middle shadow-sm">
+        <thead class="table-danger">
+            <tr>
+                <th>Residence</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th class="text-center">Cancel</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reservation in Model)
+            {
+                <tr>
+                    <td>@reservation.Residence?.Name</td>
+                    <td>@reservation.Residence?.Location?.Name</td>
+                    <td>@reservation.ReservationStartDate.ToShortDateString()</td>
+                    <td>@reservation.ReservationEndDate.ToShortDateString()</td>
+                    <td class="text-center">
+                        <form asp-action="Cancel" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@reservation.ReservationId" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Are you sure you want to cancel this reservation?');">
+                                <i class="fa-solid fa-trash"></i> Cancel
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info text-center shadow-sm">
+        You don't have any reservations yet.
+    </div>
+}
+
+<div class="text-center mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+</div>

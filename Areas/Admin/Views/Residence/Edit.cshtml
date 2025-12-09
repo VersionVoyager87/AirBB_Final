@@ -1,0 +1,94 @@
+@model AirBB.Models.ViewModels.ResidenceAdminViewModel
+
+@{
+    ViewData["Title"] = "Edit Residence";
+    Layout = "_AdminLayout";
+}
+
+<h2 class="mt-3 mb-4">Edit Residence</h2>
+
+<!-- Model-level error summary -->
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Residence.ResidenceId" />
+
+    <!-- Name -->
+    <div class="mb-3">
+        <label asp-for="Residence.Name" class="form-label"></label>
+        <input asp-for="Residence.Name" class="form-control" />
+        <span asp-validation-for="Residence.Name" class="text-danger"></span>
+    </div>
+
+    <!-- Location Dropdown -->
+    <div class="mb-3">
+        <label asp-for="Residence.LocationId" class="form-label">Location</label>
+        <select asp-for="Residence.LocationId"
+                class="form-select"
+                asp-items="@(new SelectList(Model.Locations, "LocationId", "Name", Model.Residence.LocationId))">
+            <option disabled selected value="">-- Select Location --</option>
+        </select>
+        <span asp-validation-for="Residence.LocationId" class="text-danger"></span>
+    </div>
+
+    <!-- Owner Dropdown -->
+    <div class="mb-3">
+        <label asp-for="Residence.OwnerId" class="form-label">Owner</label>
+        <select asp-for="Residence.OwnerId"
+                class="form-select"
+                asp-items="@(new SelectList(Model.Owners, "ClientId", "FullName", Model.Residence.OwnerId))">
+            <option disabled selected value="">-- Select Owner --</option>
+        </select>
+        <span asp-validation-for="Residence.OwnerId" class="text-danger"></span>
+    </div>
+
+    <!-- Accommodation -->
+    <div class="mb-3">
+        <label asp-for="Residence.Accommodation" class="form-label"></label>
+        <input asp-for="Residence.Accommodation" class="form-control" />
+        <span asp-validation-for="Residence.Accommodation" class="text-danger"></span>
+    </div>
+
+    <!-- Bedrooms -->
+    <div class="mb-3">
+        <label asp-for="Residence.Bedrooms" class="form-label"></label>
+        <input asp-for="Residence.Bedrooms" class="form-control" />
+        <span asp-validation-for="Residence.Bedrooms" class="text-danger"></span>
+    </div>
+
+    <!-- Bathrooms -->
+    <div class="mb-3">
+        <label asp-for="Residence.Bathrooms" class="form-label"></label>
+        <input asp-for="Residence.Bathrooms" class="form-control" />
+        <span asp-validation-for="Residence.Bathrooms" class="text-danger"></span>
+    </div>
+
+    <!-- BuiltYear -->
+    <div class="mb-3">
+        <label asp-for="Residence.BuiltYear" class="form-label"></label>
+        <input asp-for="Residence.BuiltYear" class="form-control" />
+        <span asp-validation-for="Residence.BuiltYear" class="text-danger"></span>
+    </div>
+
+    <!-- Image -->
+    <div class="mb-3">
+        <label asp-for="Residence.Image" class="form-label"></label>
+        <input asp-for="Residence.Image" class="form-control" />
+        <span asp-validation-for="Residence.Image" class="text-danger"></span>
+    </div>
+
+    <!-- Price -->
+    <div class="mb-3">
+        <label asp-for="Residence.Price" class="form-label"></label>
+        <input asp-for="Residence.Price" class="form-control" />
+        <span asp-validation-for="Residence.Price" class="text-danger"></span>
+    </div>
+
+    <!-- Buttons -->
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

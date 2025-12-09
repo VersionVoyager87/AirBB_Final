@@ -1,0 +1,109 @@
+﻿@model AirBB.Models.ViewModels.ResidenceViewModel
+@{
+    ViewData["Title"] = "Welcome to AirBB";
+}
+
+<h1 class="text-center my-4">@ViewData["Title"]</h1>
+
+<!-- Hero Section -->
+<div class="hero d-flex align-items-center justify-content-center text-white mb-5">
+    <div class="bg-dark bg-opacity-50 p-5 rounded text-center">
+        <h2>Find Homes, Experiences, and Services that fit your lifestyle</h2>
+        <p class="lead">Explore stays and adventures with AirBB</p>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Filter Panel -->
+    <div class="col-md-3 mb-4">
+        <div class="card p-3 shadow-sm">
+            <h4 class="text-center mb-3">Filter Residences</h4>
+            <form asp-action="Index" method="post">
+                <!-- WHERE -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Where</label>
+                    <select asp-for="Criteria.ActiveLocation" class="form-select">
+                        <option value="all">All</option>
+                        @foreach (var loc in Model.Locations)
+                        {
+                            <option value="@loc.Name"
+                                    selected="@(loc.Name.ToLower() == Model.Criteria.ActiveLocation.ToLower() ? "selected" : null)">
+                                @loc.Name
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- WHEN -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">When</label>
+                    <input asp-for="Criteria.StartDate" class="form-control" placeholder="Start Date" />
+                    <input asp-for="Criteria.EndDate" class="form-control mt-2" placeholder="End Date" />
+                </div>
+
+                <!-- WHO -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Who</label>
+                    <input asp-for="Criteria.GuestCount" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Result Panel -->
+    <div class="col-md-9">
+        @if (Model.Residences.Any())
+        {
+            <div class="row">
+                @foreach (var r in Model.Residences)
+                {
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="~/images/@r.ResidencePicture" class="card-img-top" alt="@r.Name" />
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@r.Name</h5>
+                                <p class="card-text text-muted">@r.Location?.Name</p>
+                                <p class="card-text fw-bold">@r.PricePerNight.ToString("C") per night</p>
+                                <a asp-controller="Residence" asp-action="Details" asp-route-id="@r.ResidenceId"
+                                   class="btn btn-outline-primary mt-auto">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">No residences match your filter. Try adjusting your criteria.</div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('input[name="Criteria\\.StartDate"], input[name="Criteria\\.EndDate"]').daterangepicker({
+                autoUpdateInput: false,
+                locale: { cancelLabel: 'Clear' }
+            });
+
+            $('input[name="Criteria\\.StartDate"], input[name="Criteria\\.EndDate"]').on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY'));
+            });
+
+            $('input[name="Criteria\\.StartDate"], input[name="Criteria\\.EndDate"]').on('cancel.daterangepicker', function () {
+                $(this).val('');
+            });
+        });
+    </script>
+}
+
+<style>
+    .hero {
+        height: 60vh;
+        background: url('/images/hero.jpg') center/cover no-repeat;
+        margin-top: 2rem;
+    }
+</style>

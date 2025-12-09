@@ -1,0 +1,36 @@
+@model AirBB.Models.ViewModels.ResidenceViewModel
+
+@{
+    ViewData["Title"] = "Residence Details";
+    Layout = "_MainLayout"; // Preserve Phase 1 layout
+}
+
+<h2 class="text-center my-4">Residence Details</h2>
+
+@if (Model.Residence != null)
+{
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <img src="~/images/@Model.Residence.ResidencePicture" alt="@Model.Residence.Name"
+                 class="img-fluid rounded shadow-sm" />
+        </div>
+        <div class="col-md-6">
+            <h3 class="fw-bold">@Model.Residence.Name</h3>
+            <p class="text-muted">Located in: @Model.Residence.Location?.Name</p>
+            <p><strong>Guests:</strong> @Model.Residence.GuestNumber</p>
+            <p><strong>Bedrooms:</strong> @Model.Residence.BedroomNumber</p>
+            <p><strong>Bathrooms:</strong> @Model.Residence.BathroomNumber</p>
+            <p><strong>Price per Night:</strong> @Model.Residence.PricePerNight.ToString("C")</p>
+
+            <form asp-action="Reserve" method="post">
+                <input type="hidden" name="id" value="@Model.Residence.ResidenceId" />
+                <button type="submit" class="btn btn-primary me-2">Reserve</button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">Residence not found.</div>
+}
